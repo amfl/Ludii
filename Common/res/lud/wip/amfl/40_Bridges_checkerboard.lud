@@ -2,17 +2,24 @@
     (count Sites
                 in:(intersection
                     (sites Around (#1))
-                    (sites Occupied by:Friend)
+                    (sites Occupied by:#2)
                 )
             )
 )
-(define "CaptureFoo"
+(define "CaptureEnemies"
     (forEach Site (sites Occupied by:Enemy)
-        (if (<= 3
-            ("Nbor" to)
+        (if (<= 3 ("Nbor" to Friend))
+            (remove (site))
         )
-        (remove (site))
-    ))
+    )
+)
+(define "CaptureFriends"
+    // TODO: Only need to check the piece we just moved
+    (forEach Site (sites Occupied by:Friend)
+        (if (<= 3 ("Nbor" to Enemy))
+            (remove (site))
+        )
+    )
 )
 
 (game "40 Bridges"  
@@ -22,21 +29,14 @@
         (piece "Disc" Each
             (or
                 (move Step
-                    (directions Orthogonal)
+                    (directions Diagonal)
                     (to if:(is Empty (to)))
-                    (then ("CaptureFoo") )
+                    (then (and {("CaptureFriends") ("CaptureEnemies")} ))
                 )
                 (move Hop
                     (between if:(is Friend (who at:(between))))
                     (to if:(is Empty (to)))
-                    //(then
-                    //    (forEach Site (sites Occupied by:All)
-                    //        (if (<= 3 ("EnemyNbors" (to)))
-                    //            (remove (to))
-                    //        )
-                    //    )
-                    //)
-                    (then ("CaptureFoo") )
+                    (then (and {("CaptureFriends") ("CaptureEnemies")} ))
                 )
             )
         ) 
@@ -47,8 +47,9 @@
                 (place "Disc1" {"E1" "D2" "E2" "F2" "D3" "E3" "F3" "E4"})
                 (place "Disc2" {"E9" "D8" "E8" "F8" "D7" "E7" "F7" "E6"})
              })
-        (play (forEach Piece
-        ))
+        (play
+            (forEach Piece)
+        )
         (end {
             (if (is Line 12) (result Mover Win))
             (if (is Line 13) (result Mover Loss))
