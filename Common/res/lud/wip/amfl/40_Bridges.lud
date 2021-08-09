@@ -1,0 +1,48 @@
+(game "40 Bridges"  
+    (players 2)  
+    (equipment { 
+        (board (tiling T488 5))
+        (piece "Disc" Each) 
+    })  
+    (rules
+        (start
+            {
+                (place "Disc1" {"A1" "C1" "A3" "C3"})
+                (place "Disc1" {"B2" "D2" "B4" "D4"})
+
+                (place "Disc2" {"G7" "I7" "G9" "I9"})
+                (place "Disc2" {"F6" "H6" "F8" "H8"})
+             })
+        (play (forEach Piece
+            (move Step
+                (directions { N S E W })
+                (to if:(is Empty (to)))
+            )
+        ))
+        (end {
+            (if (is Line 4) (result Mover Win))
+            (if (is Line 3) (result Mover Loss))
+        })
+    )
+)
+
+//------------------------------------------------------------------------------
+
+(metadata 
+    
+    (info
+        {
+        (description "Tic-Tac-Toe is a game of alignment popular among children. It is known from the nineteenth century in England and the United States, but may be older.")
+        (rules "Play occurs on a 3x3 grid. One player places an X, the other places an O and players take turns placing their marks in the grid, attempting to get three in a row of their colour.")
+        (source "Murray 1951: 40.")
+        (version "1.2.5")
+        (classification "board/space/line")
+        (credit "Pocket83")
+        (origin  "https://www.youtube.com/watch?v=xlFHDcK4NOs. Dec 5 2020")
+        }
+    )
+    
+)
+
+
+
