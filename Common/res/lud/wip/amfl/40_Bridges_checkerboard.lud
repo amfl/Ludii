@@ -1,23 +1,18 @@
-(define "EnemyNbors"
-    (count Sites
-        in:(intersection
-            (sites Around #1)
-            (sites Occupied by:Enemy)
-        )
-    )
-)
+
 (define "CaptureFoo"
-                        (surround
-                            (from (last To))
-                            // Adjacent
-                            Orthogonal
-                            (between
-                                if:(is Enemy (who at:(between)))
-                                (apply (remove (between)))
-                            )
-                            (to if:(is Friend (who at:(to))))
-                        )
+    (forEach Site (sites Occupied by:Enemy)
+        (if (>= 3
+            (count Sites
+                in:(intersection
+                    (sites Around (to))
+                    (sites Occupied by:Friend)
+                )
+            )
+        )
+        (remove (to))
+    ))
 )
+
 (game "40 Bridges"  
     (players 2)  
     (equipment { 
