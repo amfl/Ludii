@@ -1,15 +1,17 @@
-
-(define "CaptureFoo"
-    (forEach Site (sites Occupied by:Enemy)
-        (if (>= 3
-            (count Sites
+(define "Nbor"
+    (count Sites
                 in:(intersection
-                    (sites Around (to))
+                    (sites Around (#1))
                     (sites Occupied by:Friend)
                 )
             )
+)
+(define "CaptureFoo"
+    (forEach Site (sites Occupied by:Enemy)
+        (if (<= 3
+            ("Nbor" to)
         )
-        (remove (to))
+        (remove (site))
     ))
 )
 
