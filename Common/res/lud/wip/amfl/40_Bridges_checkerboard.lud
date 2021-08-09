@@ -6,6 +6,17 @@
         )
     )
 )
+(define "CaptureFoo"
+                        (surround
+                            //(from (last To))
+                            // Adjacent
+                            Orthogonal
+                            (between
+                                if:(is Enemy (who at:(between)))
+                                (apply (remove (between)))
+                            )
+                        )
+)
 (game "40 Bridges"  
     (players 2)  
     (equipment { 
@@ -13,29 +24,45 @@
         (piece "Disc" Each
             (or
                 (move Step
-                    (directions Diagonal)
+                    (directions Orthogonal)
                     (to if:(is Empty (to)))
+                    (then
+                        //("CaptureFoo")
+                        (surround
+                            (from (last To))
+                            // Adjacent
+                            Orthogonal
+                            (between
+                                if:(is Enemy (who at:(between)))
+                                (apply (remove (between)))
+                            )
+                            (to if:(is Friend (who at:(to))))
+                        )
+                    )
                 )
                 (move Hop
                     (between if:(is Friend (who at:(between))))
                     (to if:(is Empty (to)))
+                    //(then
+                    //    (forEach Site (sites Occupied by:All)
+                    //        (if (<= 3 ("EnemyNbors" (to)))
+                    //            (remove (to))
+                    //        )
+                    //    )
+                    //)
                     (then
-                        (forEach Site (sites Occupied by:All)
-                            (if (<= 3 ("EnemyNbors" (to)))
-                                (remove (to))
+                        //("CaptureFoo")
+                        (surround
+                            (from (last To))
+                            // Adjacent
+                            Orthogonal
+                            (between
+                                if:(is Enemy (who at:(between)))
+                                (apply (remove (between)))
                             )
+                            (to if:(is Friend (who at:(to))))
                         )
                     )
-                    //(then
-                        //(surround
-                        //    (from (last To))
-                        //    Orthogonal
-                        //    (between
-                        //        if:(is Enemy (who at:(between)))
-                        //        (apply (remove (between)))
-                        //    )
-                        //)
-                    //)
                 )
             )
         ) 
@@ -76,6 +103,7 @@
         }
     )
 )
+
 
 
 
