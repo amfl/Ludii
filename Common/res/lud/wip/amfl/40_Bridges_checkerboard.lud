@@ -2,7 +2,18 @@
     (players 2)  
     (equipment { 
         (board (square Diamond 5))
-        (piece "Disc" Each) 
+        (piece "Disc" Each
+            (or
+                (move Step
+                    (directions Diagonal)
+                    (to if:(is Empty (to)))
+                )
+                (move Hop
+                    (between if:(is Friend (who at:(between))))
+                    (to if:(is Empty (to)))
+                )
+            )
+        ) 
     })  
     (rules
         (start
@@ -11,10 +22,6 @@
                 (place "Disc2" {"E9" "D8" "E8" "F8" "D7" "E7" "F7" "E6"})
              })
         (play (forEach Piece
-            (move Step
-                (directions { N S E W })
-                (to if:(is Empty (to)))
-            )
         ))
         (end {
             (if (is Line 4) (result Mover Win))
@@ -38,7 +45,11 @@
         (origin  "https://www.youtube.com/watch?v=xlFHDcK4NOs. Dec 5 2020")
         }
     )
-    
+    (graphics
+        {
+            (board Style Chess)
+        }
+    )
 )
 
 
