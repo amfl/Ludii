@@ -8,13 +8,14 @@
 )
 (define "CaptureFoo"
                         (surround
-                            //(from (last To))
+                            (from (last To))
                             // Adjacent
                             Orthogonal
                             (between
                                 if:(is Enemy (who at:(between)))
                                 (apply (remove (between)))
                             )
+                            (to if:(is Friend (who at:(to))))
                         )
 )
 (game "40 Bridges"  
@@ -26,19 +27,7 @@
                 (move Step
                     (directions Orthogonal)
                     (to if:(is Empty (to)))
-                    (then
-                        //("CaptureFoo")
-                        (surround
-                            (from (last To))
-                            // Adjacent
-                            Orthogonal
-                            (between
-                                if:(is Enemy (who at:(between)))
-                                (apply (remove (between)))
-                            )
-                            (to if:(is Friend (who at:(to))))
-                        )
-                    )
+                    (then ("CaptureFoo") )
                 )
                 (move Hop
                     (between if:(is Friend (who at:(between))))
@@ -50,19 +39,7 @@
                     //        )
                     //    )
                     //)
-                    (then
-                        //("CaptureFoo")
-                        (surround
-                            (from (last To))
-                            // Adjacent
-                            Orthogonal
-                            (between
-                                if:(is Enemy (who at:(between)))
-                                (apply (remove (between)))
-                            )
-                            (to if:(is Friend (who at:(to))))
-                        )
-                    )
+                    (then ("CaptureFoo") )
                 )
             )
         ) 
