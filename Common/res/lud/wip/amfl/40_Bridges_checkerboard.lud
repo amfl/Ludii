@@ -1,3 +1,11 @@
+(define "EnemyNbors"
+    (count Sites
+        in:(intersection
+            (sites Around #1)
+            (sites Occupied by:Enemy)
+        )
+    )
+)
 (game "40 Bridges"  
     (players 2)  
     (equipment { 
@@ -11,6 +19,23 @@
                 (move Hop
                     (between if:(is Friend (who at:(between))))
                     (to if:(is Empty (to)))
+                    (then
+                        (forEach Site (sites Occupied by:All)
+                            (if (<= 3 ("EnemyNbors" (to)))
+                                (remove (to))
+                            )
+                        )
+                    )
+                    //(then
+                        //(surround
+                        //    (from (last To))
+                        //    Orthogonal
+                        //    (between
+                        //        if:(is Enemy (who at:(between)))
+                        //        (apply (remove (between)))
+                        //    )
+                        //)
+                    //)
                 )
             )
         ) 
@@ -24,8 +49,8 @@
         (play (forEach Piece
         ))
         (end {
-            (if (is Line 4) (result Mover Win))
-            (if (is Line 3) (result Mover Loss))
+            (if (is Line 12) (result Mover Win))
+            (if (is Line 13) (result Mover Loss))
         })
     )
 )
@@ -51,6 +76,7 @@
         }
     )
 )
+
 
 
 
