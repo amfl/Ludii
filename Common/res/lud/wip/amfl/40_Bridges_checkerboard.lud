@@ -51,8 +51,8 @@
             (forEach Piece)
         )
         (end {
-            (if (is Line 12) (result Mover Win))
-            (if (is Line 13) (result Mover Loss))
+            (if (is Within (id "Disc" P1) in:(sites "E9") ) (result P1 Win))
+            (if (is Within (id "Disc" P2) in:(sites "E1") ) (result P2 Win))
         })
     )
 )
