@@ -62,13 +62,12 @@
 (metadata
     (info
         {
-        (description "Tic-Tac-Toe is a game of alignment popular among children. It is known from the nineteenth century in England and the United States, but may be older.")
-        (rules "Play occurs on a 3x3 grid. One player places an X, the other places an O and players take turns placing their marks in the grid, attempting to get three in a row of their colour.")
-        (source "Murray 1951: 40.")
+        (description "40 Bridges is a game played on a small board inspired by a tiled floor.")
+        (rules "The object is to be the first player to move one of their pieces to the opposing corner square or to capture all their opponent's pieces. Pieces move diagonally into empty spaces, or by jumping over one adjacent piece of their own color. Note that this results in a piece being unable to leave the square color it begins the game on. A player can capture an opponent's piece by surrounding it with 3 pieces that are adjacent to it.")
+        (source "https://www.youtube.com/watch?v=xlFHDcK4NOs Dec 5 2020")
         (version "1.2.5")
-        (classification "board/space/line")
+        (classification "experimental")
         (credit "Pocket83")
-        (origin  "https://www.youtube.com/watch?v=xlFHDcK4NOs. Dec 5 2020")
         }
     )
     (graphics
@@ -77,8 +76,3 @@
         }
     )
 )
-
-
-
-
-
