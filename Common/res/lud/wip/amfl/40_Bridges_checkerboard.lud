@@ -1,46 +1,46 @@
 (define "Nbor"
     (count Sites
-                in:(intersection
-                    (sites Around (#1))
-                    (sites Occupied by:#2)
-                )
-            )
-)
-(define "CaptureEnemies"
-    (forEach Site (sites Occupied by:Enemy)
-        (if (<= 3 ("Nbor" to Friend))
-            (remove (site))
-        )
-    )
-)
-(define "CaptureFriends"
-    // TODO: Only need to check the piece we just moved
-    (forEach Site (sites Occupied by:Friend)
-        (if (<= 3 ("Nbor" to Enemy))
-            (remove (site))
+        in:(intersection
+            (sites Around (#1))
+            (sites Occupied by:#2)
         )
     )
 )
 
-(game "40 Bridges"  
-    (players 2)  
-    (equipment { 
+(define "CheckCaptures"
+    (and
+        // Suicide
+        (if (<= 3 ("Nbor" #1 Enemy))
+            (remove #1)
+        )
+        // Captures
+        (forEach Site (sites Occupied by:Enemy)
+            (if (<= 3 ("Nbor" site Friend))
+                (remove (site))
+            )
+        )
+    )
+)
+
+(game "40 Bridges"
+    (players 2)
+    (equipment {
         (board (square Diamond 5))
         (piece "Disc" Each
             (or
                 (move Step
                     (directions Diagonal)
                     (to if:(is Empty (to)))
-                    (then (and {("CaptureFriends") ("CaptureEnemies")} ))
+                    (then ("CheckCaptures" (last To)))
                 )
                 (move Hop
                     (between if:(is Friend (who at:(between))))
                     (to if:(is Empty (to)))
-                    (then (and {("CaptureFriends") ("CaptureEnemies")} ))
+                    (then ("CheckCaptures" (last To)))
                 )
             )
-        ) 
-    })  
+        )
+    })
     (rules
         (start
             {
@@ -59,8 +59,7 @@
 
 //------------------------------------------------------------------------------
 
-(metadata 
-    
+(metadata
     (info
         {
         (description "Tic-Tac-Toe is a game of alignment popular among children. It is known from the nineteenth century in England and the United States, but may be older.")
